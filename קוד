@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>קורס וירוסים – אתר תרגול</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-main: #fdf5ff;
+      --bg-card: #ffffff;
+      --primary: #ec407a;
+      --primary-dark: #d81b60;
+      --secondary: #7e57c2;
+      --accent: #26c6da;
+      --text-main: #333333;
+      --text-muted: #666666;
+      --shadow-soft: 0 4px 12px rgba(0,0,0,0.08);
+      --radius: 14px;
+      --transition-fast: 0.2s ease;
+      --transition-med: 0.35s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Heebo', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: radial-gradient(circle at top left, #ffe3f0 0, #fdf5ff 40%, #e3f7ff 100%);
+      margin: 0;
+      padding: 0;
+      direction: rtl;
+      color: var(--text-main);
+    }
+
+    header {
+      background: linear-gradient(135deg, #ec407a, #7e57c2);
+      color: white;
+      padding: 18px 20px 22px;
+      text-align: center;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: 0.5px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: 20px auto 40px;
+      padding: 0 12px;
+    }
+
+    nav {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+
+    nav button {
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+      border-radius: 999px;
+      font-size: 15px;
+      background: rgba(255,255,255,0.8);
+      color: var(--text-main);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+    }
+
+    nav button span.icon {
+      font-size: 16px;
+    }
+
+    nav button.active {
+      background: linear-gradient(135deg, #ec407a, #7e57c2);
+      color: white;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+      transform: translateY(-1px);
+    }
+
+    nav button:not(.active):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+    }
+
+    .section {
+      display: none;
+      background: rgba(255,255,255,0.9);
+      padding: 20px 18px 24px;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(8px);
+      animation: fadeIn var(--transition-med);
+    }
+
+    .section.active {
+      display: block;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 20px;
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h2 span.icon {
+      font-size: 20px;
+    }
+
+    p.section-desc {
+      margin-top: 4px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    .question {
+      margin-bottom: 18px;
+      padding: 12px 12px 10px;
+      border-radius: 10px;
+      background: #fff7fb;
+      border: 1px solid #f8c1d9;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    }
+
+    .question h3 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: #ad1457;
+    }
+
+    .answers label {
+      display: block;
+      margin-bottom: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px 6px;
+      border-radius: 8px;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .answers input {
+      margin-left: 6px;
+      accent-color: #ec407a;
+    }
+
+    .answers label:hover {
+      background: #ffe3f0;
+      transform: translateX(-1px);
+    }
+
+    .btn {
+      padding: 10px 18px;
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      font-size: 14px;
+      margin-top: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+      transition: background var(--transition-fast), transform var(--transition-fast), box-shadow var(--transition-fast), color var(--transition-fast);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ec407a, #7e57c2);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #ffffff;
+      color: var(--primary-dark);
+      border: 1px solid #f48fb1;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.16);
+    }
+
+    #score {
+      margin-top: 15px;
+      font-weight: 500;
+      font-size: 16px;
+      color: #4a148c;
+    }
+
+    /* כרטיסיות */
+    .flashcards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 10px;
+    }
+
+    .card-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .card {
+      background: transparent;
+      width: 100%;
+      height: 170px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+
+    .card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      transition: transform 0.6s;
+      transform-style: preserve-3d;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    }
+
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+
+    .card-face {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      box-sizing: border-box;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .card-front {
+      background: radial-gradient(circle at top left, #ffe3f0 0, #fdf5ff 40%, #e3f7ff 100%);
+      color: #6a1b9a;
+      font-weight: 500;
+    }
+
+    .card-back {
+      background: radial-gradient(circle at top right, #e3f7ff 0, #e8f5e9 40%, #f1f8e9 100%);
+      color: #1b5e20;
+      transform: rotateY(180deg);
+    }
+
+    .card-chapter {
+      margin-top: 6px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 20px;
+      }
+      h2 {
+        font-size: 18px;
+      }
+      .card {
+        height: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+<header>
+  <h1>קורס וירוסים – אתר תרגול</h1>
+  <p>מבחנים רנדומליים + כרטיסיות קליפ ללמידה חכמה</p>
+</header>
+
+<main>
+  <nav>
+    <button id="quizTab" class="active">
+      <span class="icon">📝</span>
+      <span>מבחנים</span>
+    </button>
+    <button id="flashcardsTab">
+      <span class="icon">🎴</span>
+      <span>כרטיסיות</span>
+    </button>
+  </nav>
+
+  <!-- מבחנים -->
+  <section id="quizSection" class="section active">
+    <h2><span class="icon">📝</span>מבחן רנדומלי – 25 שאלות</h2>
+    <p class="section-desc">כל שאלה שווה 4 נקודות. בסיום תקבלי ציון מתוך 100. בכל פעם שתלחצי על "מבחן חדש" תקבלי סט אחר של שאלות.</p>
+    <div id="quizContainer"></div>
+    <button class="btn btn-primary" id="submitQuiz">
+      <span>✅ סיום מבחן וחישוב ציון</span>
+    </button>
+    <button class="btn btn-secondary" id="newQuiz">
+      <span>🔄 מבחן חדש</span>
+    </button>
+    <div id="score"></div>
+  </section>
+
+  <!-- כרטיסיות -->
+  <section id="flashcardsSection" class="section">
+    <h2><span class="icon">🎴</span>כרטיסיות קליפ</h2>
+    <p class="section-desc">לחצי על כרטיס כדי להפוך אותו ולראות את התשובה. מתחת לכל כרטיסיה מופיע מאיזה פרק היא.</p>
+    <div class="flashcards-container" id="flashcardsContainer"></div>
+  </section>
+</main>
+
+<script>
+  // ---------- מאגר שאלות למבחנים (עברית בלבד, רמות קושי שונות) ----------
+
+  const questionsBank = [
+    // פרק 1 – אברוני התא (קל-בינוני)
+    {
+      text: "מהו התפקיד העיקרי של הרשת האנדופלסמטית המחוספסת (RER)?",
+      options: [
+        "סינתזה וקיפול ראשוני של חלבונים",
+        "סינתזה של ליפידים בלבד",
+        "אחסון מים ומומסים",
+        "פירוק חומרים רעילים"
+      ],
+      correct: 0,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו התפקיד העיקרי של הרשת האנדופלסמטית החלקה (SER)?",
+      options: [
+        "שכפול DNA",
+        "סינתזה של ליפידים ופירוק רעלים",
+        "סינתזה של חלבונים",
+        "אחסון DNA"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "איזה אברון אחראי על הפקת רוב ה-ATP בתא?",
+      options: [
+        "גרעין התא",
+        "מיטוכונדריה",
+        "ליזוזום",
+        "גולג'י"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו תפקידו העיקרי של אברון הגולג'י?",
+      options: [
+        "שכפול DNA",
+        "אריזה, מיון ושינוי חלבונים וליפידים",
+        "פירוק חלבונים",
+        "ייצור ATP"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו תפקיד הליזוזום?",
+      options: [
+        "אחסון DNA",
+        "פירוק חומרים באמצעות אנזימים",
+        "סינתזת חלבונים",
+        "העברת אותות בין תאים"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו תפקידה העיקרי של הוואקואולה בתא צמח?",
+      options: [
+        "שכפול DNA",
+        "אגירת מים, מומסים ושמירה על לחץ טורגור",
+        "סינתזת חלבונים",
+        "פירוק רעלים"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "איזה אברון מכיל כלורופיל ואחראי על פוטוסינתזה?",
+      options: [
+        "מיטוכונדריה",
+        "כלורופלסט",
+        "ליזוזום",
+        "ריבוזום"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו תפקיד דופן התא בצמח?",
+      options: [
+        "בקרה על ביטוי גנים",
+        "הגנה וקשיחות לתא",
+        "ייצור ATP",
+        "סינתזת חלבונים"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו תפקיד הריבוזומים?",
+      options: [
+        "שכפול DNA",
+        "סינתזת חלבונים",
+        "פירוק ליפידים",
+        "אחסון מים"
+      ],
+      correct: 1,
+      chapter: "פרק 1 – אברוני התא"
+    },
+    {
+      text: "מהו גרעין התא?",
+      options: [
+        "אברון שמכיל את רוב החומר הגנטי של התא",
+        "אברון שמייצר ATP",
+        "אברון שמפרק חלבונים",
+        "אברון שמייצר ליפידים"
+      ],
+      correct: 0,
+      chapter: "פרק 1 – אברוני התא"
+    },
+
+    // פרק 2 – מבנה ה-DNA (קל-בינוני)
+    {
+      text: "מהם ארבעת הבסיסים החנקניים בדנ\"א?",
+      options: [
+        "A, U, C, G",
+        "A, T, C, G",
+        "A, T, U, G",
+        "A, C, U, G"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – מבנה ה-DNA"
+    },
+    {
+      text: "איזה בסיס חנקני משלים את אדנין (A) בדנ\"א?",
+      options: [
+        "ציטוזין (C)",
+        "גואנין (G)",
+        "תימין (T)",
+        "אורציל (U)"
+      ],
+      correct: 2,
+      chapter: "פרק 2 – מבנה ה-DNA"
+    },
+    {
+      text: "איזה בסיס חנקני משלים את ציטוזין (C) בדנ\"א?",
+      options: [
+        "אדנין (A)",
+        "גואנין (G)",
+        "תימין (T)",
+        "אורציל (U)"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – מבנה ה-DNA"
+    },
+    {
+      text: "מהו הקשר שמחבר בין הנוקלאוטידים בגדיל אחד של דנ\"א?",
+      options: [
+        "קשר מימן",
+        "קשר פפטידי",
+        "קשר פוספו-דיאסטרי",
+        "קשר יוני"
+      ],
+      correct: 2,
+      chapter: "פרק 2 – מבנה ה-DNA"
+    },
+    {
+      text: "מהו מבנה הדנ\"א?",
+      options: [
+        "סליל יחיד",
+        "סליל כפול (Double helix)",
+        "מבנה כדורי",
+        "מבנה שטוח"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – מבנה ה-DNA"
+    },
+    {
+      text: "איזה סוכר נמצא בדנ\"א?",
+      options: [
+        "ריבוז",
+        "דאוקסיריבוז",
+        "גלוקוז",
+        "פרוקטוז"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – מבנה ה-DNA"
+    },
+
+    // פרק 2 – שכפול DNA (בינוני)
+    {
+      text: "כיצד מתואר שכפול הדנ\"א?",
+      options: [
+        "שמרני (Conservative)",
+        "חצי-שמרני (Semi-conservative)",
+        "מפוזר (Dispersive)",
+        "אקראי"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – שכפול DNA"
+    },
+    {
+      text: "מהי מטרת שכפול הדנ\"א?",
+      options: [
+        "יצירת אנרגיה",
+        "יצירת עותק זהה של החומר הגנטי לפני חלוקת התא",
+        "פירוק חלבונים",
+        "סינתזת ליפידים"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – שכפול DNA"
+    },
+    {
+      text: "איזה אנזים פותח את סליל הדנ\"א בזמן שכפול?",
+      options: [
+        "DNA פולימראז",
+        "הליקאז",
+        "ליגאז",
+        "פרימאז"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – שכפול DNA"
+    },
+    {
+      text: "מה תפקיד האנזים DNA פולימראז?",
+      options: [
+        "פתיחת סליל הדנ\"א",
+        "חיבור נוקלאוטידים ליצירת גדיל חדש",
+        "תיקון קשרי מימן",
+        "פירוק חלבונים"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – שכפול DNA"
+    },
+    {
+      text: "מהו פריימר בשכפול דנ\"א?",
+      options: [
+        "קטע RNA קצר שמספק קצה 3' חופשי ל-DNA פולימראז",
+        "אנזים שמפרק דנ\"א",
+        "חלבון קושר דנ\"א",
+        "רצף דנ\"א שאינו משוכפל"
+      ],
+      correct: 0,
+      chapter: "פרק 2 – שכפול DNA"
+    },
+
+    // פרק 2 – RNA ותעתוק (בינוני)
+    {
+      text: "איזה בסיס חנקני נמצא ב-RNA אך לא ב-DNA?",
+      options: [
+        "תימין (T)",
+        "אורציל (U)",
+        "ציטוזין (C)",
+        "גואנין (G)"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – RNA"
+    },
+    {
+      text: "מהו תהליך התעתוק (Transcription)?",
+      options: [
+        "העתקת דנ\"א לדנ\"א",
+        "העתקת דנ\"א ל-RNA",
+        "הפיכת RNA לחלבון",
+        "פירוק חלבונים לחומצות אמינו"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – תעתוק"
+    },
+    {
+      text: "איזה אנזים מסנתז RNA על גבי תבנית דנ\"א?",
+      options: [
+        "DNA פולימראז",
+        "RNA פולימראז",
+        "הליקאז",
+        "ליגאז"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – תעתוק"
+    },
+    {
+      text: "מהו mRNA?",
+      options: [
+        "RNA שליח שמעביר את המידע מהדנ\"א לריבוזום",
+        "RNA שנמצא בריבוזום",
+        "RNA שמעביר חומצות אמינו",
+        "RNA גרעיני בלבד"
+      ],
+      correct: 0,
+      chapter: "פרק 2 – RNA"
+    },
+    {
+      text: "מהו tRNA?",
+      options: [
+        "RNA שליח",
+        "RNA ריבוזומלי",
+        "RNA שמעביר חומצות אמינו לריבוזום",
+        "RNA גרעיני"
+      ],
+      correct: 2,
+      chapter: "פרק 2 – תרגום"
+    },
+    {
+      text: "מהו rRNA?",
+      options: [
+        "RNA שליח",
+        "RNA ריבוזומלי – מרכיב מבני וקטליטי של הריבוזום",
+        "RNA שמעביר חומצות אמינו",
+        "RNA גרעיני"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – RNA"
+    },
+
+    // פרק 2 – תרגום וחלבונים (בינוני-קשה)
+    {
+      text: "מהו תהליך התרגום (Translation)?",
+      options: [
+        "העתקת דנ\"א ל-RNA",
+        "בניית חלבון לפי רצף ה-mRNA",
+        "שכפול דנ\"א",
+        "פירוק RNA"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – תרגום"
+    },
+    {
+      text: "מהו קודון?",
+      options: [
+        "רצף של שלושה נוקלאוטידים ב-mRNA המקודד לחומצה אמינית",
+        "רצף של שלושה נוקלאוטידים ב-tRNA",
+        "רצף בדנ\"א בלבד",
+        "רצף בחלבון"
+      ],
+      correct: 0,
+      chapter: "פרק 2 – תרגום"
+    },
+    {
+      text: "מהו אנטיקודון?",
+      options: [
+        "רצף של שלושה נוקלאוטידים ב-mRNA",
+        "רצף של שלושה נוקלאוטידים ב-tRNA המשלים לקודון",
+        "רצף בדנ\"א",
+        "רצף בחלבון"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – תרגום"
+    },
+    {
+      text: "מהו קודון התחלה הנפוץ?",
+      options: [
+        "UAA",
+        "AUG",
+        "UGA",
+        "UAG"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – תרגום"
+    },
+    {
+      text: "מהם קודוני הסיום?",
+      options: [
+        "AUG, UAA, UAG",
+        "UAA, UAG, UGA",
+        "AUG, UGA, UAG",
+        "UAA, AUG, UGA"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – תרגום"
+    },
+    {
+      text: "ממה בנויים חלבונים?",
+      options: [
+        "נוקלאוטידים",
+        "חומצות אמינו",
+        "חומצות שומן",
+        "חד-סוכרים"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – חלבונים"
+    },
+    {
+      text: "מהו קשר פפטידי?",
+      options: [
+        "קשר בין שני נוקלאוטידים",
+        "קשר בין שתי חומצות אמינו",
+        "קשר בין שני ליפידים",
+        "קשר בין שני סוכרים"
+      ],
+      correct: 1,
+      chapter: "פרק 2 – חלבונים"
+    },
+
+    // פרק 3 – וירוסים (בינוני-קשה)
+    {
+      text: "ממה בעיקר מורכב וירוס?",
+      options: [
+        "ליפידים בלבד",
+        "מעטפת חלבונית וחומר גנטי",
+        "פחמימות בלבד",
+        "חלבונים בלבד"
+      ],
+      correct: 1,
+      chapter: "פרק 3 – וירוסים"
+    },
+    {
+      text: "מה מאפיין וירוס לעומת תא חי?",
+      options: [
+        "יש לו מיטוכונדריה",
+        "יכול להתרבות לבד ללא תא מארח",
+        "אין לו אברונים והוא תלוי בתא מארח לשכפול",
+        "יש לו דופן תא צמחית"
+      ],
+      correct: 2,
+      chapter: "פרק 3 – וירוסים"
+    },
+    {
+      text: "איזה סוגי חומר גנטי יכולים להיות בווירוסים?",
+      options: [
+        "רק DNA דו-גדילי",
+        "רק RNA חד-גדילי",
+        "DNA או RNA, חד-גדילי או דו-גדילי",
+        "רק DNA מעגלי"
+      ],
+      correct: 2,
+      chapter: "פרק 3 – וירוסים"
+    },
+    {
+      text: "מהו קפסיד?",
+      options: [
+        "מעטפת ליפידית של הווירוס",
+        "החומר הגנטי של הווירוס",
+        "מעטפת חלבונית העוטפת את החומר הגנטי",
+        "אנזים ויראלי"
+      ],
+      correct: 2,
+      chapter: "פרק 3 – וירוסים"
+    },
+    {
+      text: "מהי תקופת דגירה (Incubation period) בזיהום ויראלי?",
+      options: [
+        "הזמן מההדבקה ועד הופעת הסימפטומים",
+        "הזמן מההדבקה ועד מוות",
+        "הזמן מההדבקה ועד יצירת נוגדנים",
+        "הזמן מההדבקה ועד ריפוי מלא"
+      ],
+      correct: 0,
+      chapter: "פרק 3 – וירוסים"
+    },
+    {
+      text: "מהו וירוס ליטי?",
+      options: [
+        "וירוס שמשתלב בגנום המארח ונשאר רדום",
+        "וירוס שגורם להרס התא המארח בסיום מחזור ההדבקה",
+        "וירוס ללא קפסיד",
+        "וירוס ללא חומר גנטי"
+      ],
+      correct: 1,
+      chapter: "פרק 3 – וירוסים"
+    },
+    {
+      text: "מהו רטרווירוס?",
+      options: [
+        "וירוס DNA דו-גדילי",
+        "וירוס RNA המשתמש ברוורס-טרנסקריפטאז ליצירת DNA",
+        "וירוס ללא מעטפת",
+        "וירוס צמחי בלבד"
+      ],
+      correct: 1,
+      chapter: "פרק 3 – וירוסים"
+    },
+
+    // פרק 4 – מערכת החיסון (בינוני-קשה)
+    {
+      text: "איזה תאים אחראים בעיקר על ייצור נוגדנים?",
+      options: [
+        "תאי T",
+        "תאי B / תאי פלזמה",
+        "מקרופגים",
+        "נויטרופילים"
+      ],
+      correct: 1,
+      chapter: "פרק 4 – מערכת החיסון"
+    },
+    {
+      text: "מהו נוגדן (Antibody)?",
+      options: [
+        "חלבון שמזהה אנטיגן ספציפי ונקשר אליו",
+        "תא דם לבן",
+        "חומר גנטי של וירוס",
+        "אנזים שמפרק חלבונים"
+      ],
+      correct: 0,
+      chapter: "פרק 4 – מערכת החיסון"
+    },
+    {
+      text: "מהו אנטיגן?",
+      options: [
+        "כל מולקולה שיכולה להיות מזוהה באופן ספציפי על ידי נוגדן או קולט של תא T",
+        "כל סוג של תא דם לבן",
+        "רק חלבונים ויראליים",
+        "רק רעלנים חיידקיים"
+      ],
+      correct: 0,
+      chapter: "פרק 4 – מערכת החיסון"
+    },
+    {
+      text: "מהי דלקת?",
+      options: [
+        "תגובה מקומית לפגיעה או זיהום, המאופיינת באדמומיות, חום, נפיחות וכאב",
+        "תהליך שכפול דנ\"א",
+        "תהליך תעתוק",
+        "תהליך תרגום"
+      ],
+      correct: 0,
+      chapter: "פרק 4 – מערכת החיסון"
+    },
+    {
+      text: "מהו חיסון?",
+      options: [
+        "מתן אנטיגן בצורה מבוקרת כדי לעורר יצירת זיכרון חיסוני",
+        "מתן אנטיביוטיקה",
+        "מתן ויטמינים",
+        "מתן נוגדנים מוכנים בלבד"
+      ],
+      correct: 0,
+      chapter: "פרק 4 – מערכת החיסון"
+    }
+  ];
+
+  // ---------- כרטיסיות (שאלה/מושג מקדימה, תשובה מאחורה, פרק) ----------
+
+  const flashcards = [
+    // פרק 1 – אברוני התא
+    { front: "רשת אנדופלסמטית מחוספסת (RER)", back: "אברון שעליו יושבים ריבוזומים; אחראי על סינתזה וקיפול ראשוני של חלבונים.", chapter: "פרק 1 – אברוני התא" },
+    { front: "רשת אנדופלסמטית חלקה (SER)", back: "מעורבת בסינתזת ליפידים, פירוק רעלים ואגירת יוני סידן.", chapter: "פרק 1 – אברוני התא" },
+    { front: "גולג'י", back: "אברון שממיין, אורז ומשנה חלבונים וליפידים לפני שליחתם ליעדם.", chapter: "פרק 1 – אברוני התא" },
+    { front: "מיטוכונדריה", back: "אברון הנשימה התאית; מייצר את רוב ה-ATP בתא.", chapter: "פרק 1 – אברוני התא" },
+    { front: "ליזוזום", back: "שלפוחית המכילה אנזימי פירוק; מפרקת חומרים זרים ואברונים פגומים.", chapter: "פרק 1 – אברוני התא" },
+    { front: "ואקואולה בתא צמח", back: "שלפוחית גדולה לאגירת מים, מומסים וחומרים נוספים; שומרת על לחץ טורגור.", chapter: "פרק 1 – אברוני התא" },
+    { front: "כלורופלסט", back: "אברון בצמחים המבצע פוטוסינתזה ומכיל כלורופיל.", chapter: "פרק 1 – אברוני התא" },
+    { front: "דופן התא בצמח", back: "מעטפת קשיחה מחוץ לקרום התא; מעניקה צורה והגנה לתא.", chapter: "פרק 1 – אברוני התא" },
+    { front: "ריבוזום", back: "קומפלקס של rRNA וחלבונים; אתר סינתזת החלבונים.", chapter: "פרק 1 – אברוני התא" },
+    { front: "גרעין התא", back: "אברון המכיל את רוב ה-DNA של התא ומבקר על ביטוי גנים.", chapter: "פרק 1 – אברוני התא" },
+    { front: "ציטופלזמה", back: "נוזל התא והאברונים שבו; הסביבה הפנימית של התא.", chapter: "פרק 1 – מבנה התא" },
+    { front: "קרום התא", back: "דו-שכבה פוספוליפידית עם חלבונים; שולטת במעבר חומרים פנימה והחוצה.", chapter: "פרק 1 – מבנה התא" },
+    { front: "פוספוליפיד", back: "מולקולה עם ראש הידרופילי וזנבות הידרופוביים; מרכיב מרכזי בקרום התא.", chapter: "פרק 1 – מבנה התא" },
+
+    // פרק 2 – DNA
+    { front: "DNA – ארבעת הבסיסים", back: "A, T, C, G – אדנין, תימין, ציטוזין וגואנין.", chapter: "פרק 2 – מבנה ה-DNA" },
+    { front: "זיווג בסיסים בדנ\"א", back: "A מזדווג עם T, C מזדווג עם G באמצעות קשרי מימן.", chapter: "פרק 2 – מבנה ה-DNA" },
+    { front: "סוכר בדנ\"א", back: "דאוקסיריבוז – סוכר בעל חמישה פחמנים ללא קבוצת OH בעמדה 2'.", chapter: "פרק 2 – מבנה ה-DNA" },
+    { front: "קשר פוספו-דיאסטרי", back: "קשר קוולנטי המחבר בין נוקלאוטידים בגדיל אחד של DNA או RNA.", chapter: "פרק 2 – מבנה ה-DNA" },
+    { front: "קשרי מימן בדנ\"א", back: "קשרים לא קוולנטיים בין בסיסים משלימים המייצבים את הסליל הכפול.", chapter: "פרק 2 – מבנה ה-DNA" },
+    { front: "סליל כפול", back: "שני גדילי דנ\"א אנטי-מקבילים המלופפים זה סביב זה.", chapter: "פרק 2 – מבנה ה-DNA" },
+    { front: "גדילים אנטי-מקבילים", back: "גדיל אחד 5'→3' והשני 3'→5'.", chapter: "פרק 2 – מבנה ה-DNA" },
+
+    // פרק 2 – שכפול
+    { front: "שכפול דנ\"א – הגדרה", back: "תהליך יצירת שני עותקים זהים של הדנ\"א לפני חלוקת התא.", chapter: "פרק 2 – שכפול DNA" },
+    { front: "שכפול חצי-שמרני", back: "כל מולקולת דנ\"א חדשה מכילה גדיל ישן וגדיל חדש.", chapter: "פרק 2 – שכפול DNA" },
+    { front: "DNA פולימראז", back: "אנזים שמוסיף נוקלאוטידים לגדיל דנ\"א חדש על פי תבנית.", chapter: "פרק 2 – שכפול DNA" },
+    { front: "הליקאז", back: "אנזים הפותח את סליל הדנ\"א על ידי שבירת קשרי המימן.", chapter: "פרק 2 – שכפול DNA" },
+    { front: "גדיל מוביל", back: "גדיל דנ\"א המסונתז ברצף בכיוון 5'→3'.", chapter: "פרק 2 – שכפול DNA" },
+    { front: "גדיל מתעכב", back: "גדיל דנ\"א המסונתז במקטעים (פרגמנטים של אוקזאקי).", chapter: "פרק 2 – שכפול DNA" },
+    { front: "פריימר", back: "קטע RNA קצר המספק קצה 3' חופשי ל-DNA פולימראז.", chapter: "פרק 2 – שכפול DNA" },
+    { front: "ליגאז", back: "אנזים המחבר בין פרגמנטים של דנ\"א באמצעות קשר פוספו-דיאסטרי.", chapter: "פרק 2 – שכפול DNA" },
+
+    // פרק 2 – RNA
+    { front: "RNA – ארבעת הבסיסים", back: "A, U, C, G – אדנין, אורציל, ציטוזין וגואנין.", chapter: "פרק 2 – RNA" },
+    { front: "אורציל (U)", back: "בסיס חנקני הנמצא ב-RNA במקום תימין.", chapter: "פרק 2 – RNA" },
+    { front: "mRNA – RNA שליח", back: "מולקולה הנושאת את קוד החלבון מהדנ\"א לריבוזום.", chapter: "פרק 2 – RNA" },
+    { front: "tRNA – RNA מעביר", back: "מולקולה הנושאת חומצה אמינית ומתאימה אותה לקודון ב-mRNA.", chapter: "פרק 2 – תרגום" },
+    { front: "rRNA – RNA ריבוזומלי", back: "מרכיב מבני וקטליטי של הריבוזום.", chapter: "פרק 2 – RNA" },
+
+    // פרק 2 – תעתוק
+    { front: "תעתוק – הגדרה", back: "סינתזת RNA על גבי תבנית דנ\"א.", chapter: "פרק 2 – תעתוק" },
+    { front: "פרומוטר", back: "רצף דנ\"א שבו נקשר RNA פולימראז ומתחיל תעתוק.", chapter: "פרק 2 – תעתוק" },
+    { front: "אינטרון", back: "רצף שאינו מקודד ונחתך החוצה מ-pre-mRNA.", chapter: "פרק 2 – עיבוד RNA" },
+    { front: "אקסון", back: "רצף מקודד שנשאר ב-mRNA הבשל.", chapter: "פרק 2 – עיבוד RNA" },
+    { front: "שחבור (Splicing)", back: "הסרת אינטרונים וחיבור אקסונים ב-pre-mRNA.", chapter: "פרק 2 – עיבוד RNA" },
+
+    // פרק 2 – תרגום וחלבונים
+    { front: "תרגום – הגדרה", back: "תהליך בניית חלבון לפי רצף הקודונים ב-mRNA.", chapter: "פרק 2 – תרגום" },
+    { front: "קודון", back: "רצף של שלושה נוקלאוטידים ב-mRNA המקודד לחומצה אמינית.", chapter: "פרק 2 – תרגום" },
+    { front: "אנטיקודון", back: "רצף של שלושה נוקלאוטידים ב-tRNA המשלים לקודון.", chapter: "פרק 2 – תרגום" },
+    { front: "קודון התחלה", back: "AUG – מסמן התחלת תרגום ומקודד למתיונין.", chapter: "פרק 2 – תרגום" },
+    { front: "קודוני סיום", back: "UAA, UAG, UGA – מסמנים סיום תרגום.", chapter: "פרק 2 – תרגום" },
+    { front: "מבנה ראשוני של חלבון", back: "רצף חומצות האמינו בשרשרת.", chapter: "פרק 2 – חלבונים" },
+    { front: "מבנה שניוני של חלבון", back: "קיפול מקומי – סליל אלפא או משטח בטא.", chapter: "פרק 2 – חלבונים" },
+    { front: "מבנה שלישוני של חלבון", back: "קיפול תלת-ממדי של שרשרת פוליפפטיד אחת.", chapter: "פרק 2 – חלבונים" },
+    { front: "מבנה רבעוני של חלבון", back: "צירוף של כמה שרשראות פוליפפטיד לחלבון אחד.", chapter: "פרק 2 – חלבונים" },
+    { front: "קשר פפטידי", back: "קשר קוולנטי בין קבוצת קרבוקסיל של חומצה אמינית אחת לקבוצת אמינו של אחרת.", chapter: "פרק 2 – חלבונים" },
+
+    // פרק 3 – וירוסים
+    { front: "וירוס – הגדרה בסיסית", back: "טפיל תוך-תאי מחייב המורכב מחומר גנטי ומעטפת חלבונית.", chapter: "פרק 3 – וירוסים" },
+    { front: "חומר גנטי בווירוסים", back: "יכול להיות DNA או RNA, חד-גדילי או דו-גדילי.", chapter: "פרק 3 – וירוסים" },
+    { front: "קפסיד", back: "מעטפת חלבונית העוטפת את החומר הגנטי של הווירוס.", chapter: "פרק 3 – וירוסים" },
+    { front: "מעטפת ליפידית ויראלית", back: "מעטפת שמקורה בקרום התא המארח, עוטפת חלק מהווירוסים.", chapter: "פרק 3 – וירוסים" },
+    { front: "טווח מארחים (Host range)", back: "הקבוצה של תאים/אורגניזמים שווירוס מסוים יכול להדביק.", chapter: "פרק 3 – וירוסים" },
+    { front: "מחזור ליטי", back: "מחזור שבו הווירוס משתכפל וגורם להרס התא המארח.", chapter: "פרק 3 – וירוסים" },
+    { front: "מחזור ליזוגני", back: "מחזור שבו ה-DNA הוויראלי משתלב בגנום המארח ויכול להישאר רדום.", chapter: "פרק 3 – וירוסים" },
+    { front: "רטרווירוס", back: "ווירוס RNA המשתמש באנזים רוורס-טרנסקריפטאז ליצירת DNA.", chapter: "פרק 3 – וירוסים" },
+    { front: "רוורס-טרנסקריפטאז", back: "אנזים המסנתז DNA על גבי תבנית RNA.", chapter: "פרק 3 – וירוסים" },
+    { front: "תקופת דגירה", back: "הזמן מההדבקה ועד הופעת הסימפטומים.", chapter: "פרק 3 – וירוסים" },
+
+    // פרק 4 – מערכת החיסון
+    { front: "אנטיגן", back: "כל מולקולה שיכולה להיות מזוהה באופן ספציפי על ידי נוגדן או תא T.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "נוגדן (אימונוגלובולין)", back: "חלבון המיוצר על ידי תאי B ונקשר באופן ספציפי לאנטיגן.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "תא B", back: "לימפוציט שיכול להתמיין לתא פלזמה המייצר נוגדנים.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "תא T", back: "לימפוציט המעורב בחיסון תאי; כולל תאי T מסייעים וציטוטוקסיים.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "מקרופג", back: "תא בולען שבולע פתוגנים ומציג אנטיגנים.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "חיסון מולד", back: "תגובה לא ספציפית ומהירה הקיימת מלידה.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "חיסון נרכש", back: "תגובה ספציפית לאנטיגן, משתפרת בחשיפות חוזרות.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "תאי זיכרון", back: "לימפוציטים ארוכי-חיים המגיבים במהירות בחשיפה חוזרת לאנטיגן.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "חיסון פעיל", back: "הגוף מייצר בעצמו נוגדנים ותאי זיכרון לאחר חשיפה לאנטיגן.", chapter: "פרק 4 – מערכת החיסון" },
+    { front: "חיסון סביל", back: "מתן נוגדנים מוכנים (למשל סרום) ללא יצירת זיכרון חיסוני משמעותי.", chapter: "פרק 4 – מערכת החיסון" },
+
+    // כללי – גנטיקה
+    { front: "גנום", back: "כלל החומר הגנטי באורגניזם או בווירוס.", chapter: "כללי – גנטיקה" },
+    { front: "מוטציה", back: "שינוי ברצף הנוקלאוטידים של הדנ\"א.", chapter: "כללי – גנטיקה" },
+    { front: "מוטציית נקודה", back: "שינוי בבסיס אחד או בזוג בסיסים אחד.", chapter: "כללי – גנטיקה" },
+    { front: "מוטציית היסט (Frameshift)", back: "הכנסה או החסרה של נוקלאוטידים המשנה את מסגרת הקריאה.", chapter: "כללי – גנטיקה" },
+    { front: "מוטציה שקטה", back: "מוטציה שאינה משנה את רצף החלבון.", chapter: "כללי – גנטיקה" },
+    { front: "מוטציית מיסנס", back: "מוטציה המשנה חומצה אמינית אחת בחלבון.", chapter: "כללי – גנטיקה" },
+    { front: "מוטציית נונסנס", back: "מוטציה ההופכת קודון לחומצה אמינית לקודון סיום.", chapter: "כללי – גנטיקה" },
+    { front: "דוגמת היסוד (Central dogma)", back: "DNA → RNA → חלבון.", chapter: "כללי – ביטוי גנים" },
+
+    // כללי – ביולוגיה של התא
+    { front: "דיפוזיה", back: "תנועה פסיבית של חלקיקים מריכוז גבוה לנמוך.", chapter: "פרק 1 – מעבר חומרים" },
+    { front: "אוסמוזה", back: "דיפוזיה של מים דרך קרום בררני.", chapter: "פרק 1 – מעבר חומרים" },
+    { front: "העברה אקטיבית", back: "מעבר חומרים נגד מפל הריכוז בעזרת אנרגיה (ATP).", chapter: "פרק 1 – מעבר חומרים" },
+    { front: "אפופטוזיס", back: "מוות תאי מתוכנן.", chapter: "כללי – ביולוגיה של התא" },
+    { front: "נקרוזיס", back: "מוות תאי לא מבוקר בעקבות פגיעה.", chapter: "כללי – ביולוגיה של התא" }
+  ];
+
+  // ---------- לוגיקת מבחן ----------
+
+  const quizContainer = document.getElementById('quizContainer');
+  const submitQuizBtn = document.getElementById('submitQuiz');
+  const newQuizBtn = document.getElementById('newQuiz');
+  const scoreDiv = document.getElementById('score');
+
+  let currentQuizQuestions = [];
+
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+  }
+
+  function generateRandomQuiz() {
+    scoreDiv.textContent = "";
+    quizContainer.innerHTML = "";
+    const questionsCopy = [...questionsBank];
+    shuffleArray(questionsCopy);
+    currentQuizQuestions = questionsCopy.slice(0, 25); // 25 שאלות רנדומליות
+
+    currentQuizQuestions.forEach((q, index) => {
+      const qDiv = document.createElement('div');
+      qDiv.className = 'question';
+
+      const title = document.createElement('h3');
+      title.textContent = `שאלה ${index + 1}: ${q.text}`;
+      qDiv.appendChild(title);
+
+      const answersDiv = document.createElement('div');
+      answersDiv.className = 'answers';
+
+      q.options.forEach((opt, i) => {
+        const id = `q${index}_opt${i}`;
+        const label = document.createElement('label');
+        const input = document.createElement('input');
+        input.type = 'radio';
+        input.name = `q${index}`;
+        input.value = i;
+        input.id = id;
+        label.setAttribute('for', id);
+        label.appendChild(input);
+        label.appendChild(document.createTextNode(opt));
+        answersDiv.appendChild(label);
+      });
+
+      qDiv.appendChild(answersDiv);
+      quizContainer.appendChild(qDiv);
+    });
+  }
+
+  function calculateScore() {
+    let correctCount = 0;
+    currentQuizQuestions.forEach((q, index) => {
+      const selected = document.querySelector(`input[name="q${index}"]:checked`);
+      if (selected && parseInt(selected.value, 10) === q.correct) {
+        correctCount++;
+      }
+    });
+    const totalQuestions = currentQuizQuestions.length;
+    const points = correctCount * 4;
+    const maxPoints = totalQuestions * 4;
+    const grade = (points / maxPoints) * 100;
+    scoreDiv.textContent = `ענית נכון על ${correctCount} מתוך ${totalQuestions}. הציון שלך: ${grade.toFixed(1)} / 100`;
+  }
+
+  submitQuizBtn.addEventListener('click', calculateScore);
+  newQuizBtn.addEventListener('click', generateRandomQuiz);
+
+  // ---------- לוגיקת כרטיסיות ----------
+
+  const flashcardsContainer = document.getElementById('flashcardsContainer');
+
+  function renderFlashcards() {
+    flashcardsContainer.innerHTML = "";
+    flashcards.forEach(cardData => {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'card-wrapper';
+
+      const card = document.createElement('div');
+      card.className = 'card';
+
+      const inner = document.createElement('div');
+      inner.className = 'card-inner';
+
+      const front = document.createElement('div');
+      front.className = 'card-face card-front';
+      front.textContent = cardData.front;
+
+      const back = document.createElement('div');
+      back.className = 'card-face card-back';
+      back.textContent = cardData.back;
+
+      inner.appendChild(front);
+      inner.appendChild(back);
+      card.appendChild(inner);
+
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+      });
+
+      const chapter = document.createElement('div');
+      chapter.className = 'card-chapter';
+      chapter.textContent = `פרק: ${cardData.chapter}`;
+
+      wrapper.appendChild(card);
+      wrapper.appendChild(chapter);
+      flashcardsContainer.appendChild(wrapper);
+    });
+  }
+
+  // ---------- טאבים ----------
+
+  const quizTab = document.getElementById('quizTab');
+  const flashcardsTab = document.getElementById('flashcardsTab');
+  const quizSection = document.getElementById('quizSection');
+  const flashcardsSection = document.getElementById('flashcardsSection');
+
+  quizTab.addEventListener('click', () => {
+    quizTab.classList.add('active');
+    flashcardsTab.classList.remove('active');
+    quizSection.classList.add('active');
+    flashcardsSection.classList.remove('active');
+  });
+
+  flashcardsTab.addEventListener('click', () => {
+    flashcardsTab.classList.add('active');
+    quizTab.classList.remove('active');
+    flashcardsSection.classList.add('active');
+    quizSection.classList.remove('active');
+  });
+
+  // ---------- התחלה ----------
+
+  generateRandomQuiz();
+  renderFlashcards();
+</script>
+</body>
+</html>
